@@ -23,11 +23,92 @@ const MIN_TARGET_Y = 0.5;
 const MAX_TARGET_Y = 30;
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
 
+// The slice of three.js we touch. model-viewer keeps its scene behind a private symbol and bundles its own
+// three, so these are structural types rather than imports.
+type Quat = {
+    clone(): Quat;
+    set(x: number, y: number, z: number, w: number): Quat;
+    copy(q: Quat): Quat;
+    invert(): Quat;
+    multiply(q: Quat): Quat;
+};
+type Node3D = {
+    name: string;
+    parent: Node3D | null;
+    quaternion: Quat;
+    getWorldQuaternion(target: Quat): Quat;
+    traverse(cb: (o: Node3D) => void): void;
+};
+type ModelScene = Node3D & { camera: Node3D; renderShadow: (renderer: unknown) => void; queueRender: () => void };
+
+const LABEL_PREFIX = "Label_";
+
+const findScene = (viewer: ModelViewerElement): ModelScene | null => {
+    const bag = viewer as unknown as Record<symbol, unknown>;
+    for (const sym of Object.getOwnPropertySymbols(viewer)) {
+        const v = bag[sym] as Partial<ModelScene> | null;
+        if (sym.description === "scene" && v && typeof v.renderShadow === "function" && v.camera) return v as ModelScene;
+    }
+    return null;
+};
+
+// The label meshes are flat text in the node's local XZ plane: reading direction +X, glyph tops toward -Z,
+// readable face toward +Y. Turning the node by (camera rotation x 90deg about X) maps those onto the
+// camera's right, up and back vectors, so the text squarely faces the viewer.
+const billboardLabels = (viewer: ModelViewerElement): (() => void) | undefined => {
+    const scene = findScene(viewer);
+    if (!scene) return;
+    const labels: Node3D[] = [];
+    scene.traverse(o => { if (o.name.startsWith(LABEL_PREFIX) && o.parent) labels.push(o); });
+    if (labels.length === 0) return;
+
+    const camQ = scene.camera.quaternion.clone();
+    const parentQ = camQ.clone();
+    const faceUp = camQ.clone().set(Math.SQRT1_2, 0, 0, Math.SQRT1_2);
+    const face = () => {
+        scene.camera.getWorldQuaternion(camQ);
+        for (const label of labels) {
+            label.parent!.getWorldQuaternion(parentQ);
+            label.quaternion.copy(parentQ.invert()).multiply(camQ).multiply(faceUp);
+        }
+    };
+
+    // renderShadow runs on the scene immediately before every draw, so labels are turned in the same frame.
+    const original = scene.renderShadow;
+    scene.renderShadow = function (this: ModelScene, renderer: unknown) {
+        face();
+        return original.call(this, renderer);
+    };
+    face();
+    scene.queueRender();
+    // Also re-face on camera-change, which fires in the same tick that moves the camera.
+    const onCameraChange = () => { face(); scene.queueRender(); };
+    viewer.addEventListener("camera-change", onCameraChange);
+    return () => {
+        scene.renderShadow = original;
+        viewer.removeEventListener("camera-change", onCameraChange);
+    };
+};
+
 const RhicModel = ({ parts, editMode, selectedId, onSelect, onOpen, onMove }: Props) => {
     const viewerRef = useRef<ModelViewerElement>(null);
     // Latest props for the native listeners below, which are attached once per edit-mode change.
     const live = useRef({ selectedId, onSelect, onMove });
     useEffect(() => { live.current = { selectedId, onSelect, onMove }; });
+
+    // Text labels baked into the model always turn to face the camera.
+    useEffect(() => {
+        const viewer = viewerRef.current;
+        if (!viewer) return;
+        let undo: (() => void) | undefined;
+        // "before-render" fires once the model is in the scene but before its first frame is drawn, so no frame
+        // ever shows the labels in their authored (static) rotations. "load" and the loaded check are fallbacks.
+        const attach = () => { undo ??= billboardLabels(viewer); };
+        const events = ["before-render", "load"];
+        events.forEach(e => viewer.addEventListener(e, attach));
+        if (viewer.loaded) attach();
+        return () => { events.forEach(e => viewer.removeEventListener(e, attach)); undo?.(); undo = undefined; };
+    }, []);
 
     // WASD moves the camera target on the ground plane, Q/E lower/raise it. Directions follow the view.
     useEffect(() => {
