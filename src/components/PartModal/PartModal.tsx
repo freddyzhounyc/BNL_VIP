@@ -1,5 +1,6 @@
+import "./PartModal.css";
 import { useEffect } from "react";
-import type { Part } from "../lib/csv";
+import type { Part } from "../../lib/csv";
 
 const PartModal = ({ part, onClose }: { part: Part; onClose: () => void }) => {
     useEffect(() => {

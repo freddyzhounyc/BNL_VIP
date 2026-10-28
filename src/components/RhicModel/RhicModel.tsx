@@ -1,7 +1,8 @@
+import "./RhicModel.css";
 import "@google/model-viewer";
 import type { ModelViewerElement } from "@google/model-viewer";
 import { useEffect, useRef } from "react";
-import type { Part } from "../lib/csv";
+import type { Part } from "../../lib/csv";
 
 type Props = {
     parts: Part[];
@@ -13,6 +14,8 @@ type Props = {
 };
 
 // Orbs float slightly off the surface they were placed on, so they don't sink into the part.
+const BASE = import.meta.env.BASE_URL;
+
 const SURFACE_OFFSET = 0.15;
 const CLICK_SLOP_PX = 5;
 const round = (n: number) => Math.round(n * 100) / 100;
@@ -230,11 +233,11 @@ const RhicModel = ({ parts, editMode, selectedId, onSelect, onOpen, onMove }: Pr
         <model-viewer
             ref={viewerRef}
             className="rhic-viewer"
-            src="rhic.glb"
+            src={`${BASE}rhic.glb`}
             camera-controls
             autoplay
-            skybox-image="env/constellation_sky.jpg"
-            environment-image="env/env_light.jpg"
+            skybox-image={`${BASE}env/constellation_sky.jpg`}
+            environment-image={`${BASE}env/env_light.jpg`}
             exposure="1"
             shadow-intensity="1.2"
             shadow-softness="0.8"
