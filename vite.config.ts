@@ -33,7 +33,7 @@ const savePartsCsv = (): Plugin => ({
 
 // https://vite.dev/config/
 export default defineConfig({
-  // Relative asset URLs so the build works from any sub-path, e.g. https://<user>.github.io/BNL_VIP/
-  base: './',
+  // Absolute base so assets resolve on nested routes (BrowserRouter). Change if deploying under a sub-path.
+  base: '/',
   plugins: [react(), savePartsCsv()],
 })

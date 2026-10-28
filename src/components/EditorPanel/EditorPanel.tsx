@@ -1,4 +1,5 @@
-import type { Part } from "../lib/csv";
+import "./EditorPanel.css";
+import type { Part } from "../../lib/csv";
 
 type Props = {
     parts: Part[];

@@ -1,0 +1,21 @@
+.model3d {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 35%, #1b2a45 0%, #0a0f1c 60%, #04060b 100%);
+}
+
+.model3d-title { position: absolute; top: 16px; left: 20px; pointer-events: none; }
+.model3d-title h1 { margin: 0; font-size: 28px; letter-spacing: 0.1em; }
+.model3d-title span { font-size: 13px; opacity: 0.7; }
+.model3d-edit-toggle {
+  position: absolute; top: 16px; right: 20px;
+  padding: 8px 14px; border-radius: 8px; cursor: pointer;
+  border: 1px solid #3b4a6b; background: #141c30; color: inherit;
+}
+.model3d-edit-toggle:hover { background: #1d2845; }
+.model3d-hint {
+  position: absolute; left: 20px; bottom: 16px; padding: 6px 12px; border-radius: 8px;
+  background: rgba(8, 12, 22, 0.75); font-size: 12px; opacity: 0.85; pointer-events: none;
+}

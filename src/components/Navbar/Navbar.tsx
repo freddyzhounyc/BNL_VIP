@@ -21,7 +21,7 @@ const Navbar = ({ title }: NavbarProps) => {
             </div>
 
             <div className="navbar-actions">
-                <NavLink to="/3d-view" className="nav-button secondary">3D View</NavLink>
+                <NavLink to="/model" className="nav-button secondary">3D View</NavLink>
                 <NavLink to="/explore" className="nav-button primary">Explore Lab</NavLink>
             </div>
         </nav>
