@@ -5,9 +5,9 @@ const HowItWorks = () => {
     return (
         <main>
             <PageHeader
-                eyebrow="Science"
-                title="How It Works"
-                description="Placeholder: page content coming soon."
+                eyebrow="Accelerator Physics & Mechanics"
+                title="How The Accelerator Works"
+                description="A comprehensive technical walkthrough explaining how particles are generated, steered with superconducting electro-optics, energized by RF resonators, and recorded at collision."
             />
         </main>
     );
