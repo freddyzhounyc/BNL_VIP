@@ -5,17 +5,19 @@ import Home from "./pages/Home/Home";
 import HowItWorks from "./pages/HowItWorks/HowItWorks";
 import Narratives from "./pages/Narratives/Narratives";
 import Timeline from "./pages/Timeline/Timeline";
+import Applications from "./pages/Applications/Applications";
 import Model3D from "./pages/Model3D/Model3D";
 
 const App = () => {
     return (
       <BrowserRouter>
-        <Navbar title="BNL" />
+        <Navbar title="BNL ACCELERATOR" />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/narratives" element={<Narratives />} />
           <Route path="/timeline" element={<Timeline />} />
+          <Route path="/applications" element={<Applications />} />
           <Route path="/model" element={<Model3D />} />
         </Routes>
         <Footer />

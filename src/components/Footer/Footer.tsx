@@ -16,7 +16,7 @@ const Footer = () => {
                     Electron-Ion Collider (EIC)
                 </p>
                 <p className="footer-copyright">
-                    © 2026 Brookhaven National Laboratory. All rights reserved.
+                    © 2026 Brookhaven National Laboratory • All rights reserved.
                 </p>
             </div>
         </footer>

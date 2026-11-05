@@ -18,6 +18,7 @@ const Navbar = ({ title }: NavbarProps) => {
                 <NavLink to="/how-it-works" className="nav-link">How It Works</NavLink>
                 <NavLink to="/narratives" className="nav-link">Narratives & People</NavLink>
                 <NavLink to="/timeline" className="nav-link">BNL Timeline</NavLink>
+                <NavLink to="/applications" className="nav-link">Discoveries & Impact</NavLink>
             </div>
 
             <div className="navbar-actions">

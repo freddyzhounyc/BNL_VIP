@@ -1,0 +1,69 @@
+.timeline-board { position: relative; }
+.timeline-board__line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: repeating-linear-gradient(to bottom, #2a6f88 0 5px, transparent 5px 9px);
+  transform: translateX(-50%);
+}
+
+.timeline-list { display: grid; gap: 28px; }
+.timeline-item {
+  display: grid;
+  grid-template-columns: 1fr 20px 1fr;
+  align-items: center;
+  column-gap: 22px;
+}
+.timeline-card { position: relative; grid-row: 1; padding: 18px; }
+.timeline-item--left .timeline-card { grid-column: 1; }
+.timeline-item--right .timeline-card { grid-column: 3; }
+.timeline-card::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40px;
+  border-top: 2px dotted var(--accent);
+}
+.timeline-item--left .timeline-card::after { right: -40px; }
+.timeline-item--right .timeline-card::after { left: -40px; }
+
+.timeline-item__marker {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: center;
+  position: relative;
+  z-index: 1;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  background: radial-gradient(circle, var(--accent) 0 3px, var(--bg) 4px);
+}
+
+.timeline-item:nth-child(4n + 1) { --accent: var(--amber); }
+.timeline-item:nth-child(4n + 2) { --accent: var(--cyan); }
+.timeline-item:nth-child(4n + 3) { --accent: var(--violet); }
+.timeline-item:nth-child(4n) { --accent: #3dd68c; }
+
+.timeline-card__meta { display: flex; align-items: center; gap: 8px; margin: 0 0 8px; }
+.timeline-card .copy-box { margin-top: 4px; }
+.timeline-card__tag { color: var(--muted); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
+.timeline-card__year {
+  padding: 3px 8px;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .timeline-board__line { left: 9px; transform: none; }
+  .timeline-item { grid-template-columns: 20px 1fr; }
+  .timeline-item--left .timeline-card,
+  .timeline-item--right .timeline-card { grid-column: 2; }
+  .timeline-item__marker { grid-column: 1; }
+  .timeline-card::after { display: none; }
+}

@@ -1,0 +1,55 @@
+.narratives-spotlight {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 28px;
+  align-items: center;
+  padding: 24px;
+}
+
+.narratives-spotlight__media {
+  display: grid;
+  place-items: center;
+  min-height: 250px;
+  margin: 0;
+  border-radius: 16px;
+  background: #10192a;
+  text-align: center;
+}
+
+.narratives-spotlight__portrait {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 34%, #8ea0bb 0 15px, transparent 16px),
+    radial-gradient(circle at 50% 100%, #8ea0bb 0 30px, transparent 31px),
+    #162033;
+}
+
+.narratives-spotlight__caption { margin-top: 12px; color: var(--cyan); font-size: 13px; }
+.narratives-spotlight__quote { font-size: 26px; }
+.narratives-spotlight__title { margin: 0 0 8px; font-size: 20px; }
+
+.narratives-card__identity {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 4px 12px;
+  align-items: center;
+}
+.narratives-card__icon {
+  grid-row: 1;
+  width: 48px;
+  height: 48px;
+  border: 1.5px solid var(--accent);
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 50% 36%, var(--accent) 0 5px, transparent 6px),
+    radial-gradient(circle at 50% 88%, var(--accent) 0 10px, transparent 11px);
+}
+.narratives-card__name,
+.narratives-card__position { grid-column: 1 / -1; }
+
+.narratives-quote__mark { color: var(--amber); font-size: 34px; line-height: 1; }
+.narratives-quote__speaker { display: grid; margin-top: auto; }
+.narratives-quote__name { font-weight: 700; }
+.narratives-quote__affiliation { color: var(--muted); font-size: 13px; }

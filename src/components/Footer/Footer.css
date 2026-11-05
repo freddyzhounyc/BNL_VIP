@@ -1,0 +1,11 @@
+.footer {
+  border-top: 1px solid #121a26;
+  padding: 28px max(24px, calc((100% - 1120px) / 2)) 40px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.footer-title { margin: 0 0 8px; color: var(--text); font-size: 14px; }
+.footer-text,
+.footer-copyright { margin: 0; }
