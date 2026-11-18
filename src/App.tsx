@@ -19,6 +19,7 @@ const App = () => {
           <Route path="/timeline" element={<Timeline />} />
           <Route path="/applications" element={<Applications />} />
           <Route path="/model" element={<Model3D />} />
+          <Route path="/explore" element={<Model3D />} />
         </Routes>
         <Footer />
       </BrowserRouter>
